@@ -23,26 +23,20 @@ struct ListNode
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
+        int depth = 0;
         ListNode* p = head;
-        while (!isNthFromEnd(p, n + 1)) {
+        while (p->next) {
             p = p->next;
+            depth++;
         }
-        if (!(p->next)) { return nullptr; }
-        //if (!(p->next->next)) { return head->next; }
+        if (depth + 1 == n) {
+            return head->next;
+        }
+        p = head;
+        for (int i = 0; i < depth - n; i++)
+            p = p->next;
         p->next = p->next->next;
         return head;
-    }
-private:
-    bool isNthFromEnd(ListNode* now, int n) {
-        while (--n) {
-            if (!(now->next))
-                return true;
-            now = now->next;
-        }
-        if (now->next) {
-            return false;
-        }
-        return true;
     }
 };
 
